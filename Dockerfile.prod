@@ -1,0 +1,15 @@
+FROM golang:1.15.6-alpine
+
+ENV config=production
+
+ENV GIN_MODE=release
+
+WORKDIR /go/src/
+
+COPY . .
+
+RUN go mod download
+
+RUN GOOS=linux go build cmd/main.go
+
+CMD ["./main"]

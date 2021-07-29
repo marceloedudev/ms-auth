@@ -1,0 +1,27 @@
+server:
+  AppVersion: 1.0
+  Port: :3000
+  Mode: test
+
+postgres:
+  Hostname: 
+  Port: 
+  Username: 
+  Password: 
+  DBName: 
+  DriverName: 
+
+redis:
+  Hostname: redis
+  Port: 6379
+  Password: redis123
+
+auth:
+  AccessTokenLifeTime: 3600
+  RefreshTokenLifeTime: 1209600
+
+grpc:
+  MaxConnectionIdle: 5
+  Timeout: 15
+  MaxConnectionAge: 5
+  Port: localhost:50051

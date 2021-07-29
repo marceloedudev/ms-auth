@@ -1,0 +1,27 @@
+server:
+  AppVersion: 1.0
+  Port: :3000
+  Mode: production
+
+postgres:
+  Hostname: postgres-service
+  Port: 5432
+  Username: 
+  Password: 
+  DBName: 
+  DriverName: pgx
+
+redis:
+  Hostname: redis-service
+  Port: 6379
+  Password: 
+
+auth:
+  AccessTokenLifeTime: 3600
+  RefreshTokenLifeTime: 1209600
+
+grpc:
+  MaxConnectionIdle: 5
+  Timeout: 15
+  MaxConnectionAge: 5
+  Port: :50051

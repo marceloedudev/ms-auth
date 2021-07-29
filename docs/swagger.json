@@ -1,0 +1,365 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a basic API Auth using Gin.",
+        "title": "Auth API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "paths": {
+        "/client/register": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "clients"
+                ],
+                "summary": "Register Client",
+                "parameters": [
+                    {
+                        "description": "Create Client",
+                        "name": "input",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/http_client.ClientRegisterRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Client"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/authorize": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Authorize User",
+                "parameters": [
+                    {
+                        "description": "Authorize User",
+                        "name": "input",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/http_user.UserInfoTokenRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.UserDataToken"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/register": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Register user",
+                "parameters": [
+                    {
+                        "description": "Create User",
+                        "name": "input",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/http_user.UserRegisterRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.TokenResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/revoke": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Revoke user",
+                "parameters": [
+                    {
+                        "description": "Data",
+                        "name": "input",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/http_user.UserRevokeTokenRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/user/tokens": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Token user",
+                "parameters": [
+                    {
+                        "description": "Data User Login",
+                        "name": "login",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/http_user.UserTokenLoginRequest"
+                        }
+                    },
+                    {
+                        "description": "Data Refresh Token",
+                        "name": "token",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/http_user.UserTokenRefreshRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.TokenResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "domain.Client": {
+            "type": "object",
+            "properties": {
+                "client_id": {
+                    "type": "string",
+                    "example": "management"
+                },
+                "client_secret": {
+                    "type": "string",
+                    "example": "a0cc1f57-407d-4d87"
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2021-04-10T21:09:38.180471Z"
+                },
+                "enabled": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "managing_id": {
+                    "type": "string",
+                    "example": "master"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2021-04-10T21:09:38.180471Z"
+                },
+                "user_id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "domain.TokenResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string",
+                    "example": "3f0dcdfe-7117-461d-b54e-bfc6c039a173"
+                },
+                "expires_in": {
+                    "type": "integer",
+                    "example": 3600
+                },
+                "refresh_token": {
+                    "type": "string",
+                    "example": "28591e38-6f52-4fbc-97ce-747d76edfa2f"
+                },
+                "token_type": {
+                    "type": "string",
+                    "example": "Bearer"
+                },
+                "user_id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "domain.UserDataToken": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "example@gmail.com"
+                },
+                "first_name": {
+                    "type": "string",
+                    "example": "Example"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "last_name": {
+                    "type": "string",
+                    "example": "Admin"
+                },
+                "managing_id": {
+                    "type": "string",
+                    "example": "master"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "_example_"
+                }
+            }
+        },
+        "http_client.ClientRegisterRequest": {
+            "type": "object",
+            "properties": {
+                "client_id": {
+                    "type": "string",
+                    "example": "management"
+                },
+                "client_secret": {
+                    "type": "string",
+                    "example": "a0cc1f57-407d-4d87"
+                },
+                "managing_id": {
+                    "type": "string",
+                    "example": "master"
+                },
+                "user_id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "http_user.UserInfoTokenRequest": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string",
+                    "example": "3f0dcdfe-7117-461d-b54e-bfc6c039a173"
+                },
+                "client_id": {
+                    "type": "string",
+                    "example": "management"
+                },
+                "client_secret": {
+                    "type": "string",
+                    "example": "hash-a0cc1f57-407d-4d87"
+                }
+            }
+        },
+        "http_user.UserRegisterRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "example@gmail.com"
+                },
+                "first_name": {
+                    "type": "string",
+                    "example": "Example"
+                },
+                "last_name": {
+                    "type": "string",
+                    "example": "Admin"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "123456"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "_example+"
+                }
+            }
+        },
+        "http_user.UserRevokeTokenRequest": {
+            "type": "object",
+            "properties": {
+                "grant_type": {
+                    "type": "string",
+                    "example": "refresh_token"
+                },
+                "token": {
+                    "type": "string",
+                    "example": "6f19ebb1-0e5c-4845-a48f-70bbcf4fcd1a"
+                }
+            }
+        },
+        "http_user.UserTokenLoginRequest": {
+            "type": "object",
+            "properties": {
+                "grant_type": {
+                    "type": "string",
+                    "example": "password"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "123456"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "_example_"
+                }
+            }
+        },
+        "http_user.UserTokenRefreshRequest": {
+            "type": "object",
+            "properties": {
+                "grant_type": {
+                    "type": "string",
+                    "example": "refresh_token"
+                },
+                "refresh_token": {
+                    "type": "string",
+                    "example": "28591e38-6f52-4fbc-97ce-747d76edfa2f"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+    postgesql:
+        image: postgres:13-alpine
+        restart: always
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=password123
+            - POSTGRES_DB=godb
+        networks:
+            - server_network
+
+    redis:
+        image: "bitnami/redis"
+        restart: always
+        environment:
+            - REDIS_PASSWORD=redis123
+        ports:
+            - "33079:6379"
+        expose:
+            - 6379
+        networks:
+            - server_network
+
+    ms-auth:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        restart: always
+        ports:
+            - 3000:3000
+            - 50051:50051
+        expose:
+            - 50051
+        volumes:
+            - ./:/go/src
+        depends_on:
+            - postgesql
+            - redis
+        networks:
+            - server_network
+
+networks:
+    server_network:
+        driver: bridge

@@ -1,0 +1,246 @@
+basePath: /
+definitions:
+  domain.Client:
+    properties:
+      client_id:
+        example: management
+        type: string
+      client_secret:
+        example: a0cc1f57-407d-4d87
+        type: string
+      created_at:
+        example: "2021-04-10T21:09:38.180471Z"
+        type: string
+      enabled:
+        example: true
+        type: boolean
+      id:
+        example: 1
+        type: integer
+      managing_id:
+        example: master
+        type: string
+      updated_at:
+        example: "2021-04-10T21:09:38.180471Z"
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  domain.TokenResponse:
+    properties:
+      access_token:
+        example: 3f0dcdfe-7117-461d-b54e-bfc6c039a173
+        type: string
+      expires_in:
+        example: 3600
+        type: integer
+      refresh_token:
+        example: 28591e38-6f52-4fbc-97ce-747d76edfa2f
+        type: string
+      token_type:
+        example: Bearer
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  domain.UserDataToken:
+    properties:
+      email:
+        example: example@gmail.com
+        type: string
+      first_name:
+        example: Example
+        type: string
+      id:
+        example: 1
+        type: integer
+      last_name:
+        example: Admin
+        type: string
+      managing_id:
+        example: master
+        type: string
+      username:
+        example: _example_
+        type: string
+    type: object
+  http_client.ClientRegisterRequest:
+    properties:
+      client_id:
+        example: management
+        type: string
+      client_secret:
+        example: a0cc1f57-407d-4d87
+        type: string
+      managing_id:
+        example: master
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  http_user.UserInfoTokenRequest:
+    properties:
+      access_token:
+        example: 3f0dcdfe-7117-461d-b54e-bfc6c039a173
+        type: string
+      client_id:
+        example: management
+        type: string
+      client_secret:
+        example: hash-a0cc1f57-407d-4d87
+        type: string
+    type: object
+  http_user.UserRegisterRequest:
+    properties:
+      email:
+        example: example@gmail.com
+        type: string
+      first_name:
+        example: Example
+        type: string
+      last_name:
+        example: Admin
+        type: string
+      password:
+        example: "123456"
+        type: string
+      username:
+        example: _example+
+        type: string
+    type: object
+  http_user.UserRevokeTokenRequest:
+    properties:
+      grant_type:
+        example: refresh_token
+        type: string
+      token:
+        example: 6f19ebb1-0e5c-4845-a48f-70bbcf4fcd1a
+        type: string
+    type: object
+  http_user.UserTokenLoginRequest:
+    properties:
+      grant_type:
+        example: password
+        type: string
+      password:
+        example: "123456"
+        type: string
+      username:
+        example: _example_
+        type: string
+    type: object
+  http_user.UserTokenRefreshRequest:
+    properties:
+      grant_type:
+        example: refresh_token
+        type: string
+      refresh_token:
+        example: 28591e38-6f52-4fbc-97ce-747d76edfa2f
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  description: This is a basic API Auth using Gin.
+  title: Auth API
+  version: "1.0"
+paths:
+  /client/register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create Client
+        in: body
+        name: input
+        schema:
+          $ref: '#/definitions/http_client.ClientRegisterRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Client'
+      summary: Register Client
+      tags:
+      - clients
+  /user/authorize:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Authorize User
+        in: body
+        name: input
+        schema:
+          $ref: '#/definitions/http_user.UserInfoTokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.UserDataToken'
+      summary: Authorize User
+      tags:
+      - users
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create User
+        in: body
+        name: input
+        schema:
+          $ref: '#/definitions/http_user.UserRegisterRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.TokenResponse'
+      summary: Register user
+      tags:
+      - users
+  /user/revoke:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Data
+        in: body
+        name: input
+        schema:
+          $ref: '#/definitions/http_user.UserRevokeTokenRequest'
+      responses:
+        "200":
+          description: ""
+      summary: Revoke user
+      tags:
+      - users
+  /user/tokens:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Data User Login
+        in: body
+        name: login
+        schema:
+          $ref: '#/definitions/http_user.UserTokenLoginRequest'
+      - description: Data Refresh Token
+        in: body
+        name: token
+        schema:
+          $ref: '#/definitions/http_user.UserTokenRefreshRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.TokenResponse'
+      summary: Token user
+      tags:
+      - users
+swagger: "2.0"

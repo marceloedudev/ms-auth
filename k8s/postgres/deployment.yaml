@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-server
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: postgres-server
+      tier: db
+
+  template:
+    metadata:
+      labels:
+        app: postgres-server
+        tier: db
+    spec:
+      containers:
+      - name: postgres-server
+        image: postgres:10.4
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-user
+              key: user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-pass
+              key: password
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: postgres-dbname
+              key: dbname
+        - name: PGDATA
+          value: "/var/lib/postgresql/data/pgdata"
+
+        ports:
+        - containerPort: 5432
+        
+        volumeMounts:
+        - name: postgres-persistent-storage
+          mountPath: /var/lib/postgresql/data
+          subPath: postgres-server
+
+      volumes:
+      - name: postgres-persistent-storage
+        persistentVolumeClaim:
+          claimName: postgres-pv-claim

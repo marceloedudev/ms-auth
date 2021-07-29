@@ -1,0 +1,16 @@
+steps:
+  - id: "Running docker-compose"
+    name: 'gcr.io/$PROJECT_ID/docker-compose:1.28.2'
+    args: ['-f', 'docker-compose.cloudbuild.yaml','up','-d']
+
+  - id: "Running docker ps"
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['ps']
+
+  - id: "Docker build image"
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '--tag=gcr.io/$PROJECT_ID/ms-auth:$SHORT_SHA', '.']
+
+  - id: "Pushing Image"
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['push','gcr.io/$PROJECT_ID/ms-auth:$SHORT_SHA']

@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS users(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    uuid VARCHAR UNIQUE NOT NULL,
+    username VARCHAR (30) UNIQUE NOT NULL,
+    first_name VARCHAR (50) NOT NULL,
+    last_name VARCHAR (50) NOT NULL,
+    password VARCHAR NOT NULL,
+    managing_id VARCHAR (32),
+    email VARCHAR (128) UNIQUE NOT NULL,
+    email_verified BOOLEAN NOT NULL DEFAULT FALSE,
+    enabled BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL
+);

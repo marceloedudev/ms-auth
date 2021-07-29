@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  type: LoadBalancer
+  ports:
+  - name: app-node
+    port: 80
+  - name: postgres-node
+    port: 5432
+  selector:
+    app: nginx

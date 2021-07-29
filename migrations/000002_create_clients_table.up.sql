@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS clients(
+   id serial PRIMARY KEY,
+   client_id VARCHAR NOT NULL,
+   client_secret VARCHAR UNIQUE NOT NULL,
+   user_id INTEGER NULL,
+   managing_id VARCHAR (32),
+   enabled BOOLEAN NOT NULL DEFAULT TRUE,
+   created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+   updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+);

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package ms.auth;
+
+option go_package = "./protofiles;pb";
+
+message UserAuthorizedRequest {
+    string client_id = 1;
+    string client_secret = 2;
+    string access_token = 3;
+}
+  
+message UserAuthorizedResponse {
+    uint64 id = 1;
+    string username = 2;
+    string first_name = 3;
+    string last_name = 4;
+    string email = 5;
+}
+
+service AuthUserService {
+    rpc UserAuthorized(UserAuthorizedRequest) returns (UserAuthorizedResponse);
+}
